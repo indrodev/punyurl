@@ -5,7 +5,7 @@ module.exports = {
   async post(req, res) {
     try {
       const {
-        originalLink, isPasswordProtected, password, expireAt 
+        originalLink, isPasswordProtected, password, expireAt
       } = req.body
 
       if (!originalLink === undefined) return res.status(400).json({ error: true, reason: "Missing required fields" })
