@@ -5,7 +5,8 @@ const LinkSchema = new mongoose.Schema({
   shortLink: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
+    index: true
   },
 
   originalLink: {
@@ -25,7 +26,7 @@ const LinkSchema = new mongoose.Schema({
 
   password: String,
 
-  expireAt: Date,
+  expiresAt: Date,
 
   _user: {
     type: mongoose.Schema.Types.ObjectId,

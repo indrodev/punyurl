@@ -2,7 +2,7 @@ const express = require("express")
 const router = express.Router()
 
 const User = require("../../models/user")
-const Link = require("../../models/link")
+const links = require("../web/links")
 
 /* All Web routes below */
 
@@ -29,14 +29,6 @@ router.get("/resetpassword/:token", async (req, res) => {
 })
 
 
-router.get("/:token", async (req, res) => {
-  try {
-    const { token } = req.params
-    const link = await Link.findOne({ shortLink: token }).exec()
-    return res.status(302).redirect(link.originalLink)
-  } catch (error) {
-    return res.status(400).json({ error: true, reason: error.message })
-  }
-})
+router.get("/:token", links.redirectLink)
 
 module.exports = router
