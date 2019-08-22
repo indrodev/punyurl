@@ -45,6 +45,7 @@
     "node-mocks-http": "^1.7.6",
     "randomstring": "^1.1.5",
     "serve-favicon": "^2.5.0",
+    "shortid": "^2.2.14",
     "tinyurl": "^1.1.4"
   },
   "eslintIgnore": [

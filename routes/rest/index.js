@@ -13,16 +13,18 @@ const forgotpassword = require("./auth/password")
 const users = require("./users")
 const links = require("./links")
 
-router.post("/login", login.post) // UNAUTHENTICATED
-router.post("/signup", signup.post) // UNAUTHENTICATED
-router.post("/forgotpassword", forgotpassword.startWorkflow) // UNAUTHENTICATED; AJAX
-router.post("/resetpassword", forgotpassword.resetPassword) // UNAUTHENTICATED; AJAX
+/* User SignIn / SignUp / Forget password */
+router.post("/login", login.post)
+router.post("/signup", signup.post)
+router.post("/forgotpassword", forgotpassword.startWorkflow)
+router.post("/resetpassword", forgotpassword.resetPassword)
 
-// link routers
+/* Link Routes */
 router.post("/link", links.post)
 
-router.all("*", checkJwt) // use this auth middleware for ALL subsequent routes
+router.all("*", checkJwt)
 
+/* User Routes */
 router.get("/users", users.find)
 router.get("/user/:id", users.get)
 router.post("/user", users.post)

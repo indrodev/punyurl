@@ -4,8 +4,8 @@ const router = express.Router()
 const User = require("../../models/user")
 const Link = require("../../models/link")
 
+/* All Web routes below */
 
-/* GET home page. */
 router.get("/", (req, res) => res.render("index", { title: "PunyURL" }))
 
 router.get("/resetpassword/:token", async (req, res) => {
