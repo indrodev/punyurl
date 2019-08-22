@@ -8,7 +8,11 @@ module.exports = {
   async post(req, res) {
     try {
       let {
-        originalLink, isPasswordProtected = false, password = null, expiresAt = null
+        // eslint-disable-next-line prefer-const
+        originalLink,
+        isPasswordProtected = false,
+        password = null,
+        expiresAt = null
       } = req.body
       const { user } = req
       // Validation needs to be implemented

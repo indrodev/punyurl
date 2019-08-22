@@ -7,8 +7,9 @@ module.exports = {
     try {
       const { token } = req.params
       const link = await Link.findOne({ shortLink: token }).exec()
+
       // is expired
-      if (!(link.isActive)) return res.status(404).json({ error: true, reason: "Link expired" })
+      if (!(link.isActive && moment().isBefore(link.expiresAt))) return res.status(404).render("linkExpired")
       // is password protected
       if (link.isPasswordProtected) return res.redirect(`/p/${link.shortLink}`)
 

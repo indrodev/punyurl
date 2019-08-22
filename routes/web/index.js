@@ -28,7 +28,7 @@ router.get("/resetpassword/:token", async (req, res) => {
   }
 })
 
-
+router.get("/p/:token", (req, res) => res.render("passwordRedirectForm"))
 router.get("/:token", links.redirectLink)
 
 module.exports = router
