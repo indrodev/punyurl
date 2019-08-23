@@ -6,6 +6,7 @@ const expressJwt = require("express-jwt")
 const config = require("../../config")[process.env.NODE_ENV || "development"]
 
 const checkJwt = expressJwt({ secret: config.secret }) // the JWT auth check middleware
+const hasJwt = expressJwt({ secret: config.secret, credentialsRequired: false })
 
 const login = require("./auth")
 const signup = require("./auth/signup")
@@ -20,8 +21,9 @@ router.post("/forgotpassword", forgotpassword.startWorkflow)
 router.post("/resetpassword", forgotpassword.resetPassword)
 
 /* Link Routes */
-router.post("/link", links.post)
+router.post("/link", hasJwt, links.post)
 
+/* Auth required Routes Below */
 router.all("*", checkJwt)
 
 /* User Routes */

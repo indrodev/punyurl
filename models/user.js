@@ -15,12 +15,21 @@ const UserSchema = new mongoose.Schema({
   },
 
   phone: {
-    type: String
+    type: String,
+    unique: true
   },
 
   password: {
     type: String,
-    required: true
+    required() {
+      return this.accountType === "email"
+    }
+  },
+
+  accountType: {
+    type: String,
+    enum: ["google", "email"],
+    default: "email"
   },
 
   isActive: {
@@ -43,6 +52,18 @@ const UserSchema = new mongoose.Schema({
     expiresAt: { type: Date, default: null }
   },
 
+  apiKeys: [{
+    key: {
+      type: String,
+      required: true,
+      unique: true
+    },
+    hostName: {
+      type: String,
+      required: true
+    }
+  }],
+
   createdAt: {
     type: Date,
     default: Date.now
@@ -54,16 +75,6 @@ const UserSchema = new mongoose.Schema({
 
 })
 
-
-UserSchema.pre("validate", function (next) {
-  if (this.isNew) {
-    if (this.password === undefined || this.password === null) {
-      this.generatedPassword = randomstring.generate(8) // for usage in post save hook to send welcome email
-      this.password = this.generatedPassword
-    }
-  }
-  return next()
-})
 
 // Hash & save user's password:
 UserSchema.pre("save", async function (next) {
@@ -89,14 +100,7 @@ UserSchema.methods.comparePassword = async function (pw) {
 }
 // eslint-disable-next-line prefer-arrow-callback
 UserSchema.post("save", function (doc) {
-  if (doc.generatedPassword !== undefined) {
-    // Send welcome email, but NO WAITING!
-    mailer("welcome", {
-      to: doc.email,
-      subject: "Welcome!!!",
-      locals: { email: doc.email, password: doc.generatedPassword, name: doc.name }
-    })
-  }
+  // Need to send activation link in email
 })
 
 UserSchema.virtual("name.full").get(function () {
